@@ -1,0 +1,21 @@
+feature_name,source,type,leakage_safe,description
+traffic_flow_hourly_est,DfT AADF x Diurnal Profile,Continuous,Yes,Hourly traffic exposure estimated from nearest AADF count point
+aadf_hgv_share,DfT AADF,Continuous,Yes,Heavy Goods Vehicle proportion at nearest count point
+speed_limit,STATS19 Road Static,Categorical/Ordinal,Yes,Posted road speed limit (mph)
+road_type,STATS19 Road Static,Categorical,Yes,"Dual carriageway, single, roundabout, etc."
+junction_detail,STATS19 Road Static,Categorical,Yes,"Junction layout (T-junction, crossroads, etc.)"
+urban_or_rural_area,STATS19 Road Static,Binary,Yes,Urban (1) vs Rural (2)
+hour,Datetime UTC,Discrete,Yes,Hour of day (0-23)
+day_of_week,Datetime UTC,Discrete,Yes,"Day of week (0=Mon, 6=Sun)"
+month,Datetime UTC,Discrete,Yes,Month of year (1-12)
+is_weekend,Datetime UTC,Binary,Yes,Weekend indicator
+is_bank_holiday,Holidays Library,Binary,Yes,UK official bank holiday
+solar_elevation_deg,Astral Ephemeris,Continuous,Yes,Solar elevation angle in degrees above horizon
+light_regime,Astral Ephemeris,Categorical,Yes,Day vs Night/Twilight derived strictly from solar angle
+temperature_2m,Open-Meteo ERA5,Continuous,Yes,Near-surface air temperature at 2m (C)
+precipitation,Open-Meteo ERA5,Continuous,Yes,Hourly precipitation total (mm)
+rolling_3h_precip,Open-Meteo ERA5,Continuous,Yes,3-hour cumulative precipitation wet-road proxy (mm)
+rolling_24h_precip,Open-Meteo ERA5,Continuous,Yes,24-hour cumulative precipitation (mm)
+wind_gusts_10m,Open-Meteo ERA5,Continuous,Yes,Peak wind gust speed at 10m (km/h)
+is_freezing,Open-Meteo ERA5,Binary,Yes,Air temperature <= 0 C freezing flag
+fog_proxy,Open-Meteo ERA5,Binary,Yes,"Low visibility proxy: RH >= 95%, dew depression <= 1C, low wind"

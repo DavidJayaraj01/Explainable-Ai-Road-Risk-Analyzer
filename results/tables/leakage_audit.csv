@@ -1,0 +1,25 @@
+feature_name,available_for_cases,available_for_controls,source,identically_constructed,leakage_verdict
+traffic_flow_hourly_est,Yes,Yes,DfT AADF x Diurnal Profile,Yes,SAFE
+aadf_hgv_share,Yes,Yes,DfT AADF Count Point,Yes,SAFE
+speed_limit,Yes,Yes,Sampled Road Segment Context,Yes,SAFE
+road_type,Yes,Yes,Sampled Road Segment Context,Yes,SAFE
+junction_detail,Yes,Yes,Sampled Road Segment Context,Yes,SAFE
+urban_or_rural_area,Yes,Yes,Sampled Road Segment Context,Yes,SAFE
+hour,Yes,Yes,Timestamp UTC,Yes,SAFE
+day_of_week,Yes,Yes,Timestamp UTC,Yes,SAFE
+month,Yes,Yes,Timestamp UTC,Yes,SAFE
+is_weekend,Yes,Yes,Timestamp UTC,Yes,SAFE
+is_bank_holiday,Yes,Yes,UK Official Bank Holidays,Yes,SAFE
+solar_elevation_deg,Yes,Yes,Astral Astronomical Calculation,Yes,SAFE
+temperature_2m,Yes,Yes,Open-Meteo ERA5 Grid,Yes,SAFE
+precipitation,Yes,Yes,Open-Meteo ERA5 Grid,Yes,SAFE
+rolling_3h_precip,Yes,Yes,Open-Meteo ERA5 Rolling 3h,Yes,SAFE
+rolling_24h_precip,Yes,Yes,Open-Meteo ERA5 Rolling 24h,Yes,SAFE
+wind_gusts_10m,Yes,Yes,Open-Meteo ERA5 Grid,Yes,SAFE
+is_freezing,Yes,Yes,Open-Meteo ERA5 Threshold,Yes,SAFE
+fog_proxy,Yes,Yes,Open-Meteo ERA5 Fog Algorithm,Yes,SAFE
+weather_conditions,Yes (Police),No,STATS19 Subjective Field,No,EXCLUDED (LEAKAGE)
+light_conditions,Yes (Police),No,STATS19 Subjective Field,No,EXCLUDED (LEAKAGE)
+road_surface_conditions,Yes (Police),No,STATS19 Subjective Field,No,EXCLUDED (LEAKAGE)
+number_of_vehicles,Yes (Collision),No,STATS19 Collision Record,No,EXCLUDED (LEAKAGE)
+number_of_casualties,Yes (Collision),No,STATS19 Collision Record,No,EXCLUDED (LEAKAGE)

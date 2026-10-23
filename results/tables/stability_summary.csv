@@ -1,0 +1,6 @@
+regime_a,regime_b,model,protocol,metric,value,ci_low,ci_high,noise_floor,ESR,p_value,effect_size,survives_shift_control,p_holm
+rain,clear,XGBoost,P1 (Global Model Sliced),cosine_distance,0.0001,0.0,0.0001,0.0,2.423,0.859,-0.819,True,1.0
+high_wind,clear,XGBoost,P1 (Global Model Sliced),cosine_distance,0.0,0.0,0.0001,0.0,1.455,0.682,-0.553,True,1.0
+fog,clear,XGBoost,P1 (Global Model Sliced),cosine_distance,0.0001,0.0001,0.0001,0.0,5.211,0.684,-0.554,True,1.0
+rain,high_wind,XGBoost,P1 (Global Model Sliced),cosine_distance,0.0,0.0,0.0001,0.0,1.996,0.961,-0.964,True,1.0
+rain,clear,XGBoost,P2 (Per-Regime Models),cosine_distance,0.0602,0.0602,0.0602,0.0,2482.836,0.001,5335.189,True,0.001

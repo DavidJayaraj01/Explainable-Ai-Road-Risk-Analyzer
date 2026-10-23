@@ -1,0 +1,25 @@
+# Pinned requirements for xai-road-risk project
+pandas==2.1.4
+numpy==1.26.3
+pyarrow==21.0.0
+scikit-learn==1.4.0
+xgboost==2.1.1
+shap==0.49.1
+scipy==1.15.3
+statsmodels==0.15.0
+matplotlib==3.8.2
+seaborn==0.13.0
+pyyaml==6.0.3
+requests==2.31.0
+tqdm==4.67.2
+geopandas==1.1.4
+shapely==2.1.2
+astral==3.2
+holidays==0.107
+joblib==1.5.1
+pytest==7.4.3
+streamlit==1.38.0
+nbconvert==7.16.6
+jupyter
+reportlab==5.0.1
+markdown==3.9

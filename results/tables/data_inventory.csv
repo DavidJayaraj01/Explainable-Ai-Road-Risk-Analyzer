@@ -1,0 +1,6 @@
+dataset_name,source,total_rows,total_columns,date_range,missingness_pct
+STATS19 Collisions 2021,UK Department for Transport (OGL v3.0),101087,44,10/02/2021 to 18/08/2021,0.0
+STATS19 Collisions 2022,UK Department for Transport (OGL v3.0),106004,44,23/09/2022 to 30/04/2022,0.0
+STATS19 Collisions 2023,UK Department for Transport (OGL v3.0),104258,44,04/03/2023 to 27/12/2023,0.0
+STATS19 Collisions 2024,UK Department for Transport (OGL v3.0),100927,44,12/01/2024 to 27/07/2024,0.0
+DfT Road Traffic Counts (AADF),UK Department for Transport,20000,34,2000 - 2024,0.0
