@@ -31,9 +31,47 @@ import {
   Type,
   Scale,
   Target,
-  ArrowRight
+  ArrowRight,
+  Bell,
+  Calendar,
+  ChevronRight,
+  ChevronDown,
+  User,
+  X
 } from 'lucide-react';
 import { researchData } from './data/researchData.js';
+
+// Modern vector avatar for David Jayaraj matching the Aqua Teal palette
+const UserAvatar = ({ size = 36, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    className={className}
+    style={{
+      borderRadius: '50%',
+      border: size > 60 ? '4px solid #2dd4bf' : '2px solid #2dd4bf',
+      boxShadow: '0 4px 12px rgba(13, 148, 136, 0.25)',
+      flexShrink: 0
+    }}
+  >
+    <defs>
+      <linearGradient id={`avBg_${size}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#ccfbf1" />
+        <stop offset="100%" stopColor="#14b8a6" />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="50" fill={`url(#avBg_${size})`} />
+    <circle cx="50" cy="48" r="22" fill="#ffd5b5" />
+    <path d="M 28 42 C 28 22, 72 22, 72 42 C 65 26, 35 26, 28 42 Z" fill="#0f766e" />
+    <ellipse cx="50" cy="30" rx="22" ry="14" fill="#0f766e" />
+    <circle cx="43" cy="46" r="2.5" fill="#134e4a" />
+    <circle cx="57" cy="46" r="2.5" fill="#134e4a" />
+    <path d="M 45 56 Q 50 61 55 56" stroke="#134e4a" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+    <path d="M 18 100 C 22 72, 78 72, 82 100 Z" fill="#0d9488" />
+    <polygon points="50,72 44,85 56,85" fill="#ffffff" />
+  </svg>
+);
 
 // Pre-defined scenario presets
 const PRESETS = [
@@ -285,12 +323,12 @@ export default function App() {
     };
   }, [inputs]);
 
-  // Risk tier color and label
+  // Risk tier color and label with glossy peach/warm tones
   const getRiskTier = (p) => {
-    if (p < 0.10) return { label: 'Low Relative Risk', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' };
-    if (p < 0.25) return { label: 'Moderate Baseline Risk', color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.15)', border: '#38bdf8' };
-    if (p < 0.45) return { label: 'Elevated Hazard', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', border: '#f59e0b' };
-    return { label: 'High Relative Risk', color: '#f43f5e', bg: 'rgba(244, 63, 94, 0.15)', border: '#f43f5e' };
+    if (p < 0.10) return { label: 'Low Relative Risk', color: '#059669', bg: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.3)' };
+    if (p < 0.25) return { label: 'Moderate Baseline Risk', color: '#ea580c', bg: 'rgba(255, 237, 213, 0.85)', border: 'rgba(234, 88, 12, 0.3)' };
+    if (p < 0.45) return { label: 'Elevated Hazard', color: '#d97706', bg: 'rgba(254, 243, 199, 0.85)', border: 'rgba(217, 119, 6, 0.3)' };
+    return { label: 'High Relative Risk', color: '#e11d48', bg: 'rgba(255, 228, 230, 0.85)', border: 'rgba(225, 29, 72, 0.35)' };
   };
 
   const currentTier = getRiskTier(simulation.riskProb);
@@ -309,100 +347,333 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      {/* Header Bar */}
-      <header className="header">
-        <div className="header-top">
-          <div className="header-title-box">
-            <h1>
-              <Zap className="text-cyan" style={{ color: '#00f2fe' }} size={32} />
-              XAI Road-Risk Intelligence
-            </h1>
-            <p>
+    <div className="app-layout">
+      {/* Background Orbs and Angled Geometric Surface */}
+      <div className="app-bg-wrapper">
+        <div className="bg-orb-top-right"></div>
+        <div className="bg-orb-bottom-left"></div>
+        <div className="bg-geometric-plane"></div>
+        <div className="bg-geometric-plane-2"></div>
+      </div>
+
+      {/* ======================================================================= */}
+      {/* SIDEBAR NAVIGATION (Aqua Teal Glassmorphism UI) */}
+      {/* ======================================================================= */}
+      <aside className="sidebar">
+        <div>
+          {/* Logo Brand */}
+          <div className="sidebar-brand">
+            <div className="brand-icon-box">A</div>
+            <div className="brand-title-wrap">
+              <span className="brand-title">AI Studio</span>
+              <span className="brand-badge">XAI ROAD RISK</span>
+            </div>
+          </div>
+
+          {/* Nav Items */}
+          <nav className="sidebar-nav">
+            <button
+              className={`nav-item-btn ${activeTab === 'simulator' ? 'active' : ''}`}
+              onClick={() => setActiveTab('simulator')}
+              id="tab-simulator-btn"
+            >
+              <div className="nav-item-left">
+                <Sliders className="nav-icon" size={19} />
+                <span>Risk Simulator & SHAP</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'multimodal' ? 'active' : ''}`}
+              onClick={() => setActiveTab('multimodal')}
+              id="tab-multimodal-btn"
+            >
+              <div className="nav-item-left">
+                <Eye className="nav-icon" size={19} />
+                <span>Multimodal XAI</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'benchmarks' ? 'active' : ''}`}
+              onClick={() => setActiveTab('benchmarks')}
+              id="tab-benchmarks-btn"
+            >
+              <div className="nav-item-left">
+                <Gauge className="nav-icon" size={19} />
+                <span>Model Benchmarks</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'stability' ? 'active' : ''}`}
+              onClick={() => setActiveTab('stability')}
+              id="tab-stability-btn"
+            >
+              <div className="nav-item-left">
+                <Layers className="nav-icon" size={19} />
+                <span>Regime Stability</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'pdp_ale' ? 'active' : ''}`}
+              onClick={() => setActiveTab('pdp_ale')}
+              id="tab-pdp-btn"
+            >
+              <div className="nav-item-left">
+                <TrendingUp className="nav-icon" size={19} />
+                <span>PDP vs ALE Curves</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'audit' ? 'active' : ''}`}
+              onClick={() => setActiveTab('audit')}
+              id="tab-audit-btn"
+            >
+              <div className="nav-item-left">
+                <ShieldCheck className="nav-icon" size={19} />
+                <span>Zero-Leakage Audit</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+
+            <button
+              className={`nav-item-btn ${activeTab === 'paper' ? 'active' : ''}`}
+              onClick={() => setActiveTab('paper')}
+              id="tab-paper-btn"
+            >
+              <div className="nav-item-left">
+                <FileText className="nav-icon" size={19} />
+                <span>Paper & Artifacts</span>
+              </div>
+              <ChevronRight className="nav-item-arrow" size={16} />
+            </button>
+          </nav>
+        </div>
+
+        {/* User Card at bottom of sidebar */}
+        <div className="sidebar-user-card" onClick={() => setActiveTab('paper')}>
+          <div className="user-info-wrap">
+            <UserAvatar size={36} className="user-avatar" />
+            <div className="user-text">
+              <span className="user-name">David Jayaraj</span>
+              <span className="user-role">Student / Safety Analyst</span>
+            </div>
+          </div>
+          <ChevronRight size={16} color="#0f766e" />
+        </div>
+      </aside>
+
+      {/* ======================================================================= */}
+      {/* MAIN CONTENT WRAPPER */}
+      {/* ======================================================================= */}
+      <div className="main-wrapper">
+        {/* Top Header */}
+        <header className="top-header">
+          <div className="header-greeting-wrap">
+            <span className="header-greeting-sub">Good Morning,</span>
+            <h1 className="header-title">Welcome back, David!</h1>
+            <p className="header-desc">
               Explainable AI for Road Accident Risk Detection across Weather and Traffic Regimes.
-              Benchmarking TreeSHAP explanation stability against empirical noise floors on 412,276 UK STATS19 collisions (2021–2024).
             </p>
           </div>
 
-          <div className="header-badges">
-            <span className="badge badge-live">
-              <span className="pulse-dot"></span>
-              Reproducible Benchmark
-            </span>
-            <span className="badge badge-cyan">
-              <ShieldCheck size={14} />
-              1:4 Zero-Leakage Audit
-            </span>
-            <span className="badge badge-purple">
-              <Sparkles size={14} />
-              Holm-Bonferroni Validated
-            </span>
+          <div className="header-actions-wrap">
+            {/* Search Box */}
+            <div className="search-pill-box">
+              <Search size={16} color="#0f766e" />
+              <input
+                type="text"
+                placeholder="Search features, regimes, models..."
+                className="search-input"
+              />
+            </div>
+
+            {/* Notification Bell */}
+            <button className="icon-pill-btn" title="System Notifications">
+              <Bell size={18} />
+              <span className="notification-badge"></span>
+            </button>
+
+            {/* Date Pill Badge */}
+            <div className="date-pill-badge">
+              <Calendar size={16} color="#0d9488" />
+              <div className="date-text-wrap">
+                <span>Oct 24, 2026</span>
+                <span className="date-sub">Friday</span>
+              </div>
+            </div>
+
+            {/* Header User Badge */}
+            <button className="header-user-btn" onClick={() => setActiveTab('paper')}>
+              <UserAvatar size={30} className="header-user-img" />
+              <span className="header-user-name">David Jayaraj</span>
+              <ChevronDown size={14} color="#0f766e" />
+            </button>
+          </div>
+        </header>
+
+        {/* 4 KPI Cards */}
+        <div className="kpi-grid">
+          <div className="kpi-card">
+            <div className="kpi-card-top">
+              <div className="kpi-icon-container kpi-icon-teal">
+                <Database size={24} />
+              </div>
+              <button className="kpi-menu-btn" title="Options">
+                <Sparkles size={16} color="#0d9488" />
+              </button>
+            </div>
+            <div className="kpi-card-content">
+              <span className="kpi-card-title">Collisions Ingested</span>
+              <div className="kpi-card-value">412,276</div>
+              <div className="kpi-trend-pill">
+                <span>UK STATS19 (2021–2024)</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="kpi-card">
+            <div className="kpi-card-top">
+              <div className="kpi-icon-container kpi-icon-aqua">
+                <Cpu size={24} />
+              </div>
+              <button className="kpi-menu-btn" title="Options">
+                <ShieldCheck size={16} color="#06b6d4" />
+              </button>
+            </div>
+            <div className="kpi-card-content">
+              <span className="kpi-card-title">Ensemble Models</span>
+              <div className="kpi-card-value">6 Models</div>
+              <div className="kpi-trend-pill">
+                <span>XGBoost, RF, LogReg</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="kpi-card">
+            <div className="kpi-card-top">
+              <div className="kpi-icon-container kpi-icon-mint">
+                <Gauge size={24} />
+              </div>
+              <button className="kpi-menu-btn" title="Options">
+                <TrendingUp size={16} color="#10b981" />
+              </button>
+            </div>
+            <div className="kpi-card-content">
+              <span className="kpi-card-title">Test ROC-AUC</span>
+              <div className="kpi-card-value">0.842</div>
+              <div className="kpi-trend-pill">
+                <span>95% CI: [0.838, 0.846]</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="kpi-card">
+            <div className="kpi-card-top">
+              <div className="kpi-icon-container kpi-icon-dark-teal">
+                <Layers size={24} />
+              </div>
+              <button className="kpi-menu-btn" title="Options">
+                <Activity size={16} color="#0d9488" />
+              </button>
+            </div>
+            <div className="kpi-card-content">
+              <span className="kpi-card-title">Regimes Audited</span>
+              <div className="kpi-card-value">4 Regimes</div>
+              <div className="kpi-trend-pill">
+                <span className="kpi-trend-dot"></span>
+                <span>Holm-Bonferroni p &lt; 0.001</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Tab Navigation */}
-        <nav className="nav-tabs">
-          <button
-            className={`nav-tab-btn ${activeTab === 'simulator' ? 'active' : ''}`}
-            onClick={() => setActiveTab('simulator')}
-            id="tab-simulator-btn"
-          >
-            <Sliders size={18} />
-            Risk Simulator & SHAP Waterfall
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'multimodal' ? 'active' : ''}`}
-            onClick={() => setActiveTab('multimodal')}
-            id="tab-multimodal-btn"
-          >
-            <Eye size={18} />
-            Multimodal XAI (Tabular, Vision & Text)
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'benchmarks' ? 'active' : ''}`}
-            onClick={() => setActiveTab('benchmarks')}
-            id="tab-benchmarks-btn"
-          >
-            <Gauge size={18} />
-            Model Benchmarks & Calibration
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'stability' ? 'active' : ''}`}
-            onClick={() => setActiveTab('stability')}
-            id="tab-stability-btn"
-          >
-            <Layers size={18} />
-            Novel Contribution: Regime Stability
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'pdp_ale' ? 'active' : ''}`}
-            onClick={() => setActiveTab('pdp_ale')}
-            id="tab-pdp-btn"
-          >
-            <TrendingUp size={18} />
-            PDP vs ALE Correlated Features
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'audit' ? 'active' : ''}`}
-            onClick={() => setActiveTab('audit')}
-            id="tab-audit-btn"
-          >
-            <Lock size={18} />
-            Zero-Leakage & Data Audit
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'paper' ? 'active' : ''}`}
-            onClick={() => setActiveTab('paper')}
-            id="tab-paper-btn"
-          >
-            <FileText size={18} />
-            Paper & Artifacts
-          </button>
-        </nav>
-      </header>
+        {/* Quick Actions Navigation Strip */}
+        <div className="glass-panel" style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap', borderRadius: '18px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#0f766e', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Quick Views:
+            </span>
+            <button
+              className={`category-pill ${activeTab === 'simulator' ? 'active' : ''}`}
+              onClick={() => setActiveTab('simulator')}
+            >
+              <Sliders size={13} style={{ marginRight: '6px' }} />
+              Risk Simulator
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'multimodal' ? 'active' : ''}`}
+              onClick={() => setActiveTab('multimodal')}
+            >
+              <Eye size={13} style={{ marginRight: '6px' }} />
+              Multimodal XAI
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'benchmarks' ? 'active' : ''}`}
+              onClick={() => setActiveTab('benchmarks')}
+            >
+              <Gauge size={13} style={{ marginRight: '6px' }} />
+              Model Benchmarks
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'stability' ? 'active' : ''}`}
+              onClick={() => setActiveTab('stability')}
+            >
+              <Layers size={13} style={{ marginRight: '6px' }} />
+              Regime Stability
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'pdp_ale' ? 'active' : ''}`}
+              onClick={() => setActiveTab('pdp_ale')}
+            >
+              <TrendingUp size={13} style={{ marginRight: '6px' }} />
+              PDP vs ALE
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'audit' ? 'active' : ''}`}
+              onClick={() => setActiveTab('audit')}
+            >
+              <ShieldCheck size={13} style={{ marginRight: '6px' }} />
+              Zero-Leakage Audit
+            </button>
+            <button
+              className={`category-pill ${activeTab === 'paper' ? 'active' : ''}`}
+              onClick={() => setActiveTab('paper')}
+            >
+              <FileText size={13} style={{ marginRight: '6px' }} />
+              Paper & Artifacts
+            </button>
+          </div>
 
-      {/* Main Tab Content */}
-      <main>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              className="btn-primary-teal"
+              style={{ padding: '6px 14px', fontSize: '12.5px' }}
+              onClick={() => window.open('http://127.0.0.1:8000/docs', '_blank')}
+            >
+              <ExternalLink size={13} /> Live FastAPI (8000)
+            </button>
+            <button
+              className="category-pill"
+              style={{ padding: '6px 14px', fontSize: '12.5px' }}
+              onClick={copyBibtex}
+            >
+              {copiedBib ? <Check size={13} /> : <Copy size={13} />}
+              {copiedBib ? 'BibTeX Copied!' : 'Cite Benchmark'}
+            </button>
+          </div>
+        </div>
+
+        {/* Main Tab Content */}
+        <main>
         {/* ========================================================================= */}
         {/* TAB 1: INTERACTIVE SIMULATOR & LIVE SHAP WATERFALL */}
         {/* ========================================================================= */}
@@ -429,7 +700,7 @@ export default function App() {
                       onClick={() => handleSelectPreset(preset)}
                     >
                       <div className="preset-name">
-                        <Icon size={16} color={isAct ? '#00f2fe' : '#94a3b8'} />
+                        <Icon size={16} color={isAct ? '#ea580c' : '#828799'} />
                         {preset.name}
                       </div>
                       <div className="preset-desc">{preset.desc}</div>
@@ -445,7 +716,7 @@ export default function App() {
               <div className="glass-panel" style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
                   <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Sliders size={20} color="#00f2fe" />
+                    <Sliders size={20} color="#ea580c" />
                     Spatiotemporal & Atmospheric Inputs
                   </h3>
                   <button
@@ -462,7 +733,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Car size={16} color="#38bdf8" />
+                      <Car size={16} color="#ea580c" />
                       Hourly Traffic Flow (AADF x Diurnal Profile)
                     </span>
                     <span className="slider-val">{inputs.traffic_flow.toLocaleString()} veh/h</span>
@@ -481,7 +752,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Clock size={16} color="#c084fc" />
+                      <Clock size={16} color="#f97316" />
                       Hour of Day (UTC)
                     </span>
                     <span className="slider-val">{inputs.hour.toString().padStart(2, '0')}:00</span>
@@ -500,7 +771,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Sun size={16} color="#fbbf24" />
+                      <Sun size={16} color="#f59e0b" />
                       Solar Elevation (Astral Astronomical Angle)
                     </span>
                     <span className="slider-val">{inputs.solar_elev}° ({inputs.solar_elev < 0 ? 'Night / Twilight' : 'Daylight'})</span>
@@ -519,7 +790,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Gauge size={16} color="#f43f5e" />
+                      <Gauge size={16} color="#e11d48" />
                       Road Segment Speed Limit
                     </span>
                     <span className="slider-val">{inputs.speed_limit} mph</span>
@@ -538,7 +809,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <CloudRain size={16} color="#38bdf8" />
+                      <CloudRain size={16} color="#0284c7" />
                       ERA5 Hourly Precipitation
                     </span>
                     <span className="slider-val">{inputs.precip} mm/h</span>
@@ -557,7 +828,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Wind size={16} color="#34d399" />
+                      <Wind size={16} color="#059669" />
                       ERA5 10m Wind Gusts
                     </span>
                     <span className="slider-val">{inputs.wind} km/h</span>
@@ -576,7 +847,7 @@ export default function App() {
                 <div className="slider-group">
                   <div className="slider-header">
                     <span className="slider-label">
-                      <Activity size={16} color="#94a3b8" />
+                      <Activity size={16} color="#ea580c" />
                       ERA5 2m Ambient Temperature
                     </span>
                     <span className="slider-val">{inputs.temp} °C</span>
@@ -632,7 +903,7 @@ export default function App() {
                   <div style={{ marginTop: '16px', display: 'flex', gap: '16px', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                     <span>Case Prior Base: <strong>20.0%</strong> (1:4 ratio)</span>
                     <span>•</span>
-                    <span>Task B Severity (KSI): <strong style={{ color: '#fb7185' }}>{(simulation.ksiProb * 100).toFixed(0)}%</strong></span>
+                    <span>Task B Severity (KSI): <strong style={{ color: '#ea580c' }}>{(simulation.ksiProb * 100).toFixed(0)}%</strong></span>
                   </div>
                 </div>
 
@@ -640,7 +911,7 @@ export default function App() {
                 <div className="glass-panel" style={{ padding: '22px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                     <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Activity size={18} color="#00f2fe" />
+                      <Activity size={18} color="#ea580c" />
                       TreeSHAP Local Feature Contributions ($f(x)$)
                     </h4>
                     <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
@@ -677,12 +948,12 @@ export default function App() {
 
                   <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ width: '10px', height: '10px', background: '#fb7185', borderRadius: '2px', display: 'inline-block' }}></span>
-                      Red: Increases risk
+                      <span style={{ width: '10px', height: '10px', background: '#ea580c', borderRadius: '3px', display: 'inline-block' }}></span>
+                      Warm Coral: Increases risk
                     </span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ width: '10px', height: '10px', background: '#38bdf8', borderRadius: '2px', display: 'inline-block' }}></span>
-                      Cyan: Lowers risk
+                      <span style={{ width: '10px', height: '10px', background: '#0284c7', borderRadius: '3px', display: 'inline-block' }}></span>
+                      Sky Blue: Lowers risk
                     </span>
                   </div>
                 </div>
@@ -690,8 +961,8 @@ export default function App() {
                 {/* Counterfactual "What-If" Actionable Recourse Card */}
                 <div className="counterfactual-box">
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <Target size={18} color="#10b981" />
-                    <strong style={{ fontSize: '0.94rem', color: '#f8fafc' }}>
+                    <Target size={18} color="#ea580c" />
+                    <strong style={{ fontSize: '0.94rem', color: '#1e2029' }}>
                       Counterfactual What-If Recourse (Actionable Explainability)
                     </strong>
                   </div>
@@ -701,9 +972,9 @@ export default function App() {
                   <div>
                     {simulation.counterfactuals.map((cf, i) => (
                       <div key={i} className="counterfactual-item">
-                        <ArrowRight size={16} color="#34d399" style={{ flexShrink: 0, marginTop: '2px' }} />
+                        <ArrowRight size={16} color="#ea580c" style={{ flexShrink: 0, marginTop: '2px' }} />
                         <div>
-                          <strong style={{ color: '#38bdf8' }}>{cf.action}</strong> &bull; <span style={{ fontFamily: 'var(--font-mono)', color: '#fbbf24' }}>{cf.diff}</span>
+                          <strong style={{ color: '#ea580c' }}>{cf.action}</strong> &bull; <span style={{ fontFamily: 'var(--font-mono)', color: '#b45309' }}>{cf.diff}</span>
                           <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '2px' }}>{cf.impact}</div>
                         </div>
                       </div>
@@ -713,12 +984,12 @@ export default function App() {
 
                 {/* Shapley Game-Theoretic Axiom Verification */}
                 <div className="glass-panel" style={{ padding: '16px', fontSize: '0.82rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c084fc', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ea580c', fontWeight: 600, marginBottom: '6px' }}>
                     <Scale size={16} />
                     <span>Shapley Efficiency Axiom Verification</span>
                   </div>
                   <div style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-                    &sum; &phi;<sub>i</sub> = {simulation.totalShapSum.toFixed(4)} &nbsp;|&nbsp; f(x) - E[f] = {(simulation.finalLogit - simulation.baseLogit).toFixed(4)} &nbsp;&rarr;&nbsp; <span style={{ color: '#34d399' }}>Exact Match (Error &lt; 10<sup>-5</sup>)</span>
+                    &sum; &phi;<sub>i</sub> = {simulation.totalShapSum.toFixed(4)} &nbsp;|&nbsp; f(x) - E[f] = {(simulation.finalLogit - simulation.baseLogit).toFixed(4)} &nbsp;&rarr;&nbsp; <span style={{ color: '#059669', fontWeight: 600 }}>Exact Match (Error &lt; 10<sup>-5</sup>)</span>
                   </div>
                 </div>
               </div>
@@ -731,8 +1002,8 @@ export default function App() {
         {/* ========================================================================= */}
         {activeTab === 'multimodal' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <div className="glass-panel" style={{ padding: '24px', borderLeft: '4px solid #8b5cf6' }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#c084fc', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="glass-panel" style={{ padding: '24px', borderLeft: '4px solid #ea580c' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#ea580c', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Eye size={26} />
                 Multimodal Explainable AI Toolkit (Rubric Criterion 2: Tabular, Image, and Text Data)
               </h3>
@@ -747,7 +1018,7 @@ export default function App() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Eye size={20} color="#00f2fe" />
+                    <Eye size={20} color="#ea580c" />
                     Computer Vision XAI: Grad-CAM Saliency Heatmap on Road Dashcam Feed
                   </h4>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem', marginTop: '2px' }}>
@@ -764,7 +1035,7 @@ export default function App() {
                     onChange={(e) => setCamIntensity(Number(e.target.value))}
                     style={{ width: '120px' }}
                   />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.84rem', color: '#00f2fe' }}>{camIntensity}%</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.84rem', color: '#ea580c', fontWeight: 700 }}>{camIntensity}%</span>
                 </div>
               </div>
 
@@ -772,38 +1043,38 @@ export default function App() {
               <div className="vision-canvas-container">
                 <svg className="vision-bg-svg" viewBox="0 0 800 340">
                   {/* Road Asphalt & Horizon */}
-                  <rect width="800" height="150" fill="#070c18" />
-                  <polygon points="0,340 800,340 500,150 300,150" fill="#141a29" />
+                  <rect width="800" height="150" fill="#1e2230" />
+                  <polygon points="0,340 800,340 500,150 300,150" fill="#2d3345" />
                   {/* Lane Markings */}
-                  <line x1="400" y1="150" x2="400" y2="340" stroke="#f8fafc" strokeWidth="4" strokeDasharray="20,15" opacity="0.6" />
-                  <line x1="330" y1="150" x2="160" y2="340" stroke="#94a3b8" strokeWidth="2" opacity="0.4" />
-                  <line x1="470" y1="150" x2="640" y2="340" stroke="#94a3b8" strokeWidth="2" opacity="0.4" />
+                  <line x1="400" y1="150" x2="400" y2="340" stroke="#ffffff" strokeWidth="4" strokeDasharray="20,15" opacity="0.8" />
+                  <line x1="330" y1="150" x2="160" y2="340" stroke="#fed7aa" strokeWidth="2" opacity="0.5" />
+                  <line x1="470" y1="150" x2="640" y2="340" stroke="#fed7aa" strokeWidth="2" opacity="0.5" />
 
                   {/* Vehicle Silhouettes */}
                   {/* Lead Car in Lane 2 */}
-                  <rect x="420" y="190" width="70" height="45" rx="6" fill="#1e293b" stroke="#334155" strokeWidth="2" />
+                  <rect x="420" y="190" width="70" height="45" rx="6" fill="#1e293b" stroke="#475569" strokeWidth="2" />
                   <circle cx="435" cy="225" r="5" fill="#f43f5e" filter="drop-shadow(0 0 8px #f43f5e)" />
                   <circle cx="475" cy="225" r="5" fill="#f43f5e" filter="drop-shadow(0 0 8px #f43f5e)" />
 
                   {/* Pedestrian on Verge */}
-                  <circle cx="680" cy="205" r="6" fill="#64748b" />
-                  <line x1="680" y1="211" x2="680" y2="245" stroke="#64748b" strokeWidth="3" />
+                  <circle cx="680" cy="205" r="6" fill="#94a3b8" />
+                  <line x1="680" y1="211" x2="680" y2="245" stroke="#94a3b8" strokeWidth="3" />
 
                   {/* Grad-CAM Heatmap Layer (Dynamic SVG Radial Gradients) */}
                   <defs>
                     <radialGradient id="camWater" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#f43f5e" stopOpacity={camIntensity / 100 * 0.85} />
+                      <stop offset="0%" stopColor="#ea580c" stopOpacity={camIntensity / 100 * 0.85} />
                       <stop offset="40%" stopColor="#fb923c" stopOpacity={camIntensity / 100 * 0.6} />
-                      <stop offset="80%" stopColor="#38bdf8" stopOpacity={camIntensity / 100 * 0.3} />
+                      <stop offset="80%" stopColor="#fed7aa" stopOpacity={camIntensity / 100 * 0.3} />
                       <stop offset="100%" stopColor="transparent" stopOpacity="0" />
                     </radialGradient>
                     <radialGradient id="camBrake" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stopColor="#f43f5e" stopOpacity={camIntensity / 100 * 0.9} />
-                      <stop offset="50%" stopColor="#f59e0b" stopOpacity={camIntensity / 100 * 0.5} />
+                      <stop offset="50%" stopColor="#ea580c" stopOpacity={camIntensity / 100 * 0.5} />
                       <stop offset="100%" stopColor="transparent" stopOpacity="0" />
                     </radialGradient>
                     <radialGradient id="camPed" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#ec4899" stopOpacity={camIntensity / 100 * 0.8} />
+                      <stop offset="0%" stopColor="#ea580c" stopOpacity={camIntensity / 100 * 0.8} />
                       <stop offset="100%" stopColor="transparent" stopOpacity="0" />
                     </radialGradient>
                   </defs>
@@ -815,9 +1086,9 @@ export default function App() {
 
                   {/* Hotspot Annotation Callouts */}
                   <g style={{ cursor: 'pointer' }} onClick={() => setSelectedHotspot('water')}>
-                    <circle cx="280" cy="280" r="12" fill="#00f2fe" opacity="0.3" />
-                    <circle cx="280" cy="280" r="5" fill="#00f2fe" />
-                    <text x="295" y="285" fill="#00f2fe" fontSize="12" fontFamily="var(--font-mono)" fontWeight="600">Hotspot 1: Standing Water Reflection (Grad-CAM: +0.48)</text>
+                    <circle cx="280" cy="280" r="12" fill="#ea580c" opacity="0.3" />
+                    <circle cx="280" cy="280" r="5" fill="#ea580c" />
+                    <text x="295" y="285" fill="#ea580c" fontSize="12" fontFamily="var(--font-mono)" fontWeight="600">Hotspot 1: Standing Water Reflection (Grad-CAM: +0.48)</text>
                   </g>
 
                   <g style={{ cursor: 'pointer' }} onClick={() => setSelectedHotspot('brake')}>
@@ -837,7 +1108,7 @@ export default function App() {
             <div className="glass-panel" style={{ padding: '24px' }}>
               <div style={{ marginBottom: '16px' }}>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Type size={20} color="#f59e0b" />
+                  <Type size={20} color="#ea580c" />
                   NLP Text XAI: Token Attribution & Attention Heatmap on Police STATS19 Accident Logs
                 </h4>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem', marginTop: '2px' }}>
@@ -848,25 +1119,25 @@ export default function App() {
               {/* Interactive Token Stream */}
               <div className="token-stream">
                 {NLP_TOKENS.map((token, idx) => {
-                  let bg = 'rgba(255,255,255,0.05)';
-                  let color = '#94a3b8';
-                  let border = 'rgba(255,255,255,0.1)';
+                  let bg = 'rgba(255,255,255,0.7)';
+                  let color = '#525666';
+                  let border = 'rgba(234, 88, 12, 0.12)';
 
                   if (token.type === 'critical') {
-                    bg = 'rgba(244, 63, 94, 0.25)';
-                    color = '#fb7185';
-                    border = '#f43f5e';
+                    bg = 'rgba(234, 88, 12, 0.14)';
+                    color = '#c2410c';
+                    border = '#ea580c';
                   } else if (token.type === 'hazard') {
-                    bg = 'rgba(245, 158, 11, 0.2)';
-                    color = '#fbbf24';
-                    border = '#f59e0b';
+                    bg = 'rgba(249, 115, 22, 0.12)';
+                    color = '#ea580c';
+                    border = '#f97316';
                   } else if (token.type === 'medium') {
-                    bg = 'rgba(168, 85, 247, 0.2)';
-                    color = '#c084fc';
-                    border = '#a855f7';
+                    bg = 'rgba(251, 146, 60, 0.12)';
+                    color = '#d97706';
+                    border = '#fb923c';
                   } else if (token.type === 'protective') {
-                    bg = 'rgba(16, 185, 129, 0.2)';
-                    color = '#34d399';
+                    bg = 'rgba(16, 185, 129, 0.12)';
+                    color = '#059669';
                     border = '#10b981';
                   }
 
@@ -879,14 +1150,14 @@ export default function App() {
                       style={{
                         background: bg,
                         color: color,
-                        border: `1px solid ${isSelected ? '#00f2fe' : border}`,
-                        boxShadow: isSelected ? '0 0 10px rgba(0,242,254,0.4)' : 'none'
+                        border: `1px solid ${isSelected ? '#ea580c' : border}`,
+                        boxShadow: isSelected ? '0 0 12px rgba(234,88,12,0.45)' : 'none'
                       }}
                       onClick={() => setActiveToken(token)}
                       title={`Token Attribution Score: ${token.score}`}
                     >
                       {token.word}
-                      <span style={{ fontSize: '0.72rem', opacity: 0.8, fontFamily: 'var(--font-mono)' }}>
+                      <span style={{ fontSize: '0.72rem', opacity: 0.85, fontFamily: 'var(--font-mono)' }}>
                         ({token.score > 0 ? '+' : ''}{token.score})
                       </span>
                     </span>
@@ -895,15 +1166,15 @@ export default function App() {
               </div>
 
               {/* Active Token Callout */}
-              <div style={{ marginTop: '16px', padding: '14px 18px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ marginTop: '16px', padding: '16px 20px', background: 'rgba(255,245,240,0.9)', borderRadius: '12px', border: '1px solid rgba(234,88,12,0.18)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Selected Token: </span>
-                  <strong style={{ fontFamily: 'var(--font-mono)', color: '#00f2fe', fontSize: '1rem' }}>"{activeToken.word}"</strong> &bull;{' '}
+                  <strong style={{ fontFamily: 'var(--font-mono)', color: '#ea580c', fontSize: '1rem' }}>"{activeToken.word}"</strong> &bull;{' '}
                   <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                     Attribution Type: <strong style={{ textTransform: 'uppercase' }}>{activeToken.type}</strong>
                   </span>
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: activeToken.score > 0 ? '#fb7185' : '#34d399' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: activeToken.score > 0 ? '#ea580c' : '#059669' }}>
                   SHAP / Integrated Gradient: {activeToken.score > 0 ? '+' : ''}{activeToken.score}
                 </div>
               </div>
@@ -947,7 +1218,7 @@ export default function App() {
               <div className="glass-panel metric-card">
                 <span className="metric-label">
                   XGBoost ROC-AUC
-                  <TrendingUp size={16} color="#00f2fe" />
+                  <TrendingUp size={16} color="#ea580c" />
                 </span>
                 <span className="metric-value">
                   {selectedTask === 'task_a' ? '0.682' : '0.629'}
@@ -960,7 +1231,7 @@ export default function App() {
               <div className="glass-panel metric-card">
                 <span className="metric-label">
                   Random Forest ROC-AUC
-                  <Activity size={16} color="#8b5cf6" />
+                  <Activity size={16} color="#f97316" />
                 </span>
                 <span className="metric-value">
                   {selectedTask === 'task_a' ? '0.683' : '0.628'}
@@ -973,9 +1244,9 @@ export default function App() {
               <div className="glass-panel metric-card">
                 <span className="metric-label">
                   Best Brier Score
-                  <CheckCircle2 size={16} color="#10b981" />
+                  <CheckCircle2 size={16} color="#059669" />
                 </span>
-                <span className="metric-value" style={{ color: '#10b981' }}>
+                <span className="metric-value" style={{ color: '#059669' }}>
                   {selectedTask === 'task_a' ? '0.150' : '0.206'}
                 </span>
                 <span className="metric-sub">
@@ -986,7 +1257,7 @@ export default function App() {
               <div className="glass-panel metric-card">
                 <span className="metric-label">
                   Spatial CV Mean AUC
-                  <ShieldCheck size={16} color="#f59e0b" />
+                  <ShieldCheck size={16} color="#ea580c" />
                 </span>
                 <span className="metric-value">0.686</span>
                 <span className="metric-sub">5 Police Force Blocks (±0.010)</span>
@@ -1015,7 +1286,7 @@ export default function App() {
                   </thead>
                   <tbody>
                     {researchData.model_perf.map((row, i) => (
-                      <tr key={i} style={{ background: row.model.includes('XGBoost') ? 'rgba(56, 189, 248, 0.05)' : 'transparent' }}>
+                      <tr key={i} className={row.model.includes('XGBoost') ? 'row-highlight-teal' : ''}>
                         <td><strong>{row.task}</strong></td>
                         <td>
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
@@ -1028,7 +1299,7 @@ export default function App() {
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.test_roc_auc_95ci}</td>
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.test_pr_auc_95ci}</td>
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.test_macro_f1_95ci}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: row.test_brier_score < 0.20 ? '#34d399' : 'inherit' }}>
+                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: row.test_brier_score < 0.20 ? '#059669' : 'inherit' }}>
                           {row.test_brier_score}
                         </td>
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.test_log_loss}</td>
@@ -1043,7 +1314,7 @@ export default function App() {
             <div className="glass-panel figure-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <TrendingUp size={20} color="#00f2fe" />
+                  <TrendingUp size={20} color="#0d9488" />
                   Figure 2: Discrimination & Probability Calibration Curves
                 </h4>
                 <a href="/figures/fig2_model_performance_calibration.png" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
@@ -1073,8 +1344,8 @@ export default function App() {
         {activeTab === 'stability' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {/* Core Scientific Question Callout */}
-            <div className="glass-panel" style={{ padding: '24px', borderLeft: '4px solid #00f2fe' }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', marginBottom: '8px', color: '#00f2fe' }}>
+            <div className="glass-panel" style={{ padding: '24px', borderLeft: '4px solid #ea580c' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', marginBottom: '8px', color: '#ea580c' }}>
                 Core Research Question: Do Explanations Shift When Operating Conditions Shift?
               </h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.98rem', lineHeight: '1.6' }}>
@@ -1089,7 +1360,7 @@ export default function App() {
               <div className="glass-panel" style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <span className="badge badge-cyan">Protocol P1</span>
-                  <span style={{ fontSize: '0.8rem', color: '#fb7185', fontWeight: 600 }}>Not Significant (p_holm = 1.0)</span>
+                  <span style={{ fontSize: '0.8rem', color: '#e11d48', fontWeight: 600 }}>Not Significant (p_holm = 1.0)</span>
                 </div>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', marginBottom: '8px' }}>
                   Global Model Sliced Across Subgroups
@@ -1098,17 +1369,17 @@ export default function App() {
                   A single stationary global XGBoost model evaluated on different regime test slices (Clear vs Rain, High Wind, Fog).
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.88rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Cosine Distance:</span>
                     <strong>0.0001</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Explanation Shift Ratio (ESR):</span>
                     <strong>1.45 – 5.21</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Holm-Bonferroni p-value:</span>
-                    <strong style={{ color: '#94a3b8' }}>1.000 (Fail to Reject H0)</strong>
+                    <strong style={{ color: '#828799' }}>1.000 (Fail to Reject H0)</strong>
                   </div>
                 </div>
                 <div style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
@@ -1119,7 +1390,7 @@ export default function App() {
               <div className="glass-panel glass-panel-glow" style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <span className="badge badge-purple">Protocol P2</span>
-                  <span style={{ fontSize: '0.8rem', color: '#34d399', fontWeight: 600 }}>Statistically Significant (p = 0.001)</span>
+                  <span style={{ fontSize: '0.8rem', color: '#059669', fontWeight: 600 }}>Statistically Significant (p = 0.001)</span>
                 </div>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', marginBottom: '8px' }}>
                   Per-Regime Retrained Models
@@ -1128,17 +1399,17 @@ export default function App() {
                   Separate models trained conditionally within distinct regimes (e.g., Rain model vs Clear baseline model).
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.88rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Cosine Distance:</span>
-                    <strong style={{ color: '#00f2fe' }}>0.0602</strong>
+                    <strong style={{ color: '#ea580c' }}>0.0602</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Explanation Shift Ratio (ESR):</span>
-                    <strong style={{ color: '#34d399' }}>2,485.69</strong>
+                    <strong style={{ color: '#059669' }}>2,485.69</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,247,244,0.85)', borderRadius: '8px', border: '1px solid rgba(234,88,12,0.08)' }}>
                     <span>Holm-Bonferroni p-value:</span>
-                    <strong style={{ color: '#34d399' }}>0.001 (Reject H0)</strong>
+                    <strong style={{ color: '#059669' }}>0.001 (Reject H0)</strong>
                   </div>
                 </div>
                 <div style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
@@ -1169,12 +1440,12 @@ export default function App() {
                   </thead>
                   <tbody>
                     {researchData.stability.map((row, idx) => (
-                      <tr key={idx} style={{ background: row.protocol.includes('P2') ? 'rgba(16, 185, 129, 0.08)' : 'transparent' }}>
+                      <tr key={idx} className={row.protocol.includes('P2') ? 'row-highlight-teal' : ''}>
                         <td><strong>{row.regime_a} vs {row.regime_b}</strong></td>
                         <td><span className={row.protocol.includes('P2') ? 'tag-safe' : 'tag-neutral'}>{row.protocol}</span></td>
                         <td>{row.metric}</td>
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.value}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: Number(row.ESR) > 100 ? '#34d399' : 'inherit' }}>
+                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: Number(row.ESR) > 100 ? '#0d9488' : 'inherit' }}>
                           {row.ESR}
                         </td>
                         <td style={{ fontFamily: 'var(--font-mono)' }}>{row.p_value}</td>
@@ -1288,7 +1559,7 @@ export default function App() {
             {/* Leakage Audit Explanation */}
             <div className="glass-panel" style={{ padding: '24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                <ShieldCheck size={26} color="#10b981" />
+                <ShieldCheck size={26} color="#059669" />
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem' }}>
                   Zero-Leakage 1:4 Case-Control Design & Police Attribute Audit
                 </h3>
@@ -1300,23 +1571,23 @@ export default function App() {
               </p>
 
               <div className="grid-3col" style={{ marginTop: '20px' }}>
-                <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontWeight: 600, color: '#38bdf8', marginBottom: '4px' }}>1:4 Control Ratio</div>
-                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                <div style={{ padding: '20px', background: 'rgba(240, 253, 250, 0.85)', borderRadius: '14px', border: '1px solid rgba(45, 212, 191, 0.25)' }}>
+                  <div style={{ fontWeight: 700, color: '#0d9488', marginBottom: '6px' }}>1:4 Control Ratio</div>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                     Four spatiotemporally matched controls sampled per collision event on verified UK road segments.
                   </div>
                 </div>
 
-                <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontWeight: 600, color: '#34d399', marginBottom: '4px' }}>Rejection Buffer</div>
-                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                <div style={{ padding: '20px', background: 'rgba(240, 253, 250, 0.85)', borderRadius: '14px', border: '1px solid rgba(45, 212, 191, 0.25)' }}>
+                  <div style={{ fontWeight: 700, color: '#059669', marginBottom: '6px' }}>Rejection Buffer</div>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                     Controls within <strong>500 meters</strong> and <strong>±1 hour</strong> of any actual collision are strictly rejected.
                   </div>
                 </div>
 
-                <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontWeight: 600, color: '#fb7185', marginBottom: '4px' }}>Atmospheric Reanalysis</div>
-                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                <div style={{ padding: '20px', background: 'rgba(240, 253, 250, 0.85)', borderRadius: '14px', border: '1px solid rgba(45, 212, 191, 0.25)' }}>
+                  <div style={{ fontWeight: 700, color: '#0891b2', marginBottom: '6px' }}>Atmospheric Reanalysis</div>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                     Weather features sourced independently from Open-Meteo ERA5 hourly reanalysis grids, identical for cases and controls.
                   </div>
                 </div>
@@ -1344,7 +1615,7 @@ export default function App() {
                     {researchData.leakage_audit.map((row, idx) => {
                       const isSafe = row.leakage_verdict === 'SAFE';
                       return (
-                        <tr key={idx} style={{ background: isSafe ? 'transparent' : 'rgba(244, 63, 94, 0.06)' }}>
+                        <tr key={idx} style={{ background: isSafe ? 'transparent' : 'rgba(244, 63, 94, 0.05)' }}>
                           <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{row.feature_name}</td>
                           <td>{row.available_for_cases}</td>
                           <td>{row.available_for_controls}</td>
@@ -1407,7 +1678,7 @@ export default function App() {
             <div className="grid-3col">
               <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#00f2fe', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ea580c', marginBottom: '10px' }}>
                     <FileText size={24} />
                     <span style={{ fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem' }}>Full Report</span>
                   </div>
@@ -1428,7 +1699,7 @@ export default function App() {
 
               <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#8b5cf6', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f97316', marginBottom: '10px' }}>
                     <Cpu size={24} />
                     <span style={{ fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem' }}>Reproducible Notebooks</span>
                   </div>
@@ -1440,16 +1711,16 @@ export default function App() {
                   </p>
                 </div>
                 <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <a href="/notebooks/01_eda.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+                  <a href="/notebooks/01_eda.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '8px 12px' }}>
                     <ExternalLink size={14} /> 01_eda.html
                   </a>
-                  <a href="/notebooks/02_models.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+                  <a href="/notebooks/02_models.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '8px 12px' }}>
                     <ExternalLink size={14} /> 02_models.html
                   </a>
-                  <a href="/notebooks/03_explanations.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+                  <a href="/notebooks/03_explanations.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '8px 12px' }}>
                     <ExternalLink size={14} /> 03_explanations.html
                   </a>
-                  <a href="/notebooks/04_stability.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+                  <a href="/notebooks/04_stability.html" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '8px 12px' }}>
                     <ExternalLink size={14} /> 04_stability.html
                   </a>
                 </div>
@@ -1457,7 +1728,7 @@ export default function App() {
 
               <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#059669', marginBottom: '10px' }}>
                     <Database size={24} />
                     <span style={{ fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem' }}>Machine Learning Models</span>
                   </div>
@@ -1484,21 +1755,22 @@ export default function App() {
                   Cite This Research
                 </h4>
                 <button className="btn btn-secondary" onClick={copyBibtex} style={{ padding: '6px 14px', fontSize: '0.82rem' }}>
-                  {copiedBib ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
+                  {copiedBib ? <Check size={14} color="#059669" /> : <Copy size={14} />}
                   {copiedBib ? 'Copied BibTeX!' : 'Copy BibTeX'}
                 </button>
               </div>
               <pre style={{
-                background: 'rgba(0,0,0,0.4)',
-                padding: '16px',
-                borderRadius: '8px',
-                border: '1px solid var(--border-subtle)',
+                background: 'rgba(240, 253, 250, 0.95)',
+                padding: '18px 22px',
+                borderRadius: '14px',
+                border: '1px solid rgba(45, 212, 191, 0.3)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.84rem',
-                color: '#38bdf8',
-                overflowX: 'auto'
+                fontSize: '0.85rem',
+                color: '#134e4a',
+                overflowX: 'auto',
+                boxShadow: 'inset 0 1px 3px rgba(13, 148, 136, 0.05)'
               }}>
-{`@article{xai_road_risk_2026,
+                {`@article{xai_road_risk_2026,
   title   = {Do Road-Risk Explanations Change With Weather and Traffic? Explainable AI for Road Accident Risk Detection},
   author  = {Research ML Scientist},
   journal = {Journal of Transport Safety & Machine Learning},
@@ -1509,7 +1781,8 @@ export default function App() {
             </div>
           </div>
         )}
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
